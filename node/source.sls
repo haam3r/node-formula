@@ -2,6 +2,7 @@
 {% set version = node.get('version', '5.1.0') -%}
 {% set checksum = node.get('checksum', '25b2d3b7dd57fe47a483539fea240a3c6bbbdab4d89a45a812134cf1380ecb94') -%}
 {% set make_jobs = node.get('make_jobs', '1') -%}
+{% set prefix = node.get('prefix', '/srv/moloch') -%}
 
 # Get the node.js version to find out if we have to install it again.
 # Checkinstall appends -1 as revision number, so remove it if found.
@@ -41,7 +42,7 @@ configure-node:
   cmd.run:
     - cwd: /usr/src/node-v{{ version }}
     - ignore_timeout: True
-    - name: ./configure
+    - name: ./configure --prefix={{ prefix }}
 
 make-node:
   cmd.run:
